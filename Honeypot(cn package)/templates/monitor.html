@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SecureGateway — Threat Monitor</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 24px;
+    overflow-x: auto;
+  }
+
+  .header {
+    max-width: 1400px;
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #111111;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .brand-icon {
+    width: 44px; height: 44px;
+    border: 1px solid #111111;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .brand-icon svg { width: 22px; height: 22px; fill: #111111; }
+
+  .brand div h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #003580;
+  }
+
+  .brand div p {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 2px;
+    margin-top: 2px;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+
+  #refresh-indicator {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 1px;
+  }
+
+  .live-badge {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    background: #111111;
+    border-radius: 50%;
+  }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 1400px;
+    margin: 0 auto 24px;
+  }
+
+  @media (max-width: 900px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 18px 20px;
+  }
+
+  .card-label {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .card-value {
+    font-size: 34px;
+    font-weight: 700;
+    color: #003580;
+  }
+
+  .card-value.danger  { color: #003580; }
+  .card-value.warn    { color: #003580; }
+  .card-value.safe    { color: #003580; }
+  .card-value.accent  { color: #003580; }
+
+  .table-panel {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .table-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #111111;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .clear-btn {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 3px;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    padding: 5px 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  .table-wrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+  }
+
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #111111;
+    white-space: nowrap;
+    background: #f5f5f5;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 13px 16px;
+    color: #111111;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .score-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 24px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #111111;
+    color: #111111;
+    background: #ffffff;
+  }
+
+  .score-low  { color: #111111; }
+  .score-mid  { color: #111111; }
+  .score-high { color: #111111; font-weight: 700; }
+
+  .reasons-cell {
+    max-width: 320px;
+    white-space: normal;
+    color: #111111;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .no-data .icon { font-size: 36px; margin-bottom: 12px; opacity: .4; }
+
+  .timestamp-cell { color: #111111; font-size: 11px; }
+
+  .pw-cell { color: #111111; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z"/></svg>
+    </div>
+    <div>
+      <h1>THREAT MONITOR</h1>
+      <p>HONEYPOT ACTIVITY LOG · AUTO-REFRESH 5s</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <span id="refresh-indicator">Last refresh: —</span>
+    <div class="live-badge"><div class="live-dot"></div> LIVE</div>
+  </div>
+</div>
+
+<div class="summary">
+  <div class="card">
+    <div class="card-label">TOTAL ATTACKS</div>
+    <div class="card-value danger" id="total">0</div>
+  </div>
+  <div class="card">
+    <div class="card-label">UNIQUE IPs</div>
+    <div class="card-value accent" id="unique-ips">0</div>
+  </div>
+  <div class="card">
+    <div class="card-label">SQL INJECTIONS</div>
+    <div class="card-value warn" id="sql-count">0</div>
+  </div>
+  <div class="card">
+    <div class="card-label">MAX SCORE SEEN</div>
+    <div class="card-value danger" id="max-score">0</div>
+  </div>
+</div>
+
+<div class="table-panel">
+  <div class="table-header">
+    // ATTACKER ACTIVITY LOG
+    <button class="clear-btn" onclick="clearLogs()">CLEAR DISPLAY</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>TIMESTAMP</th>
+          <th>IP ADDRESS</th>
+          <th>USERNAME</th>
+          <th>PASSWORD</th>
+          <th>API KEY</th>
+          <th>SCORE</th>
+          <th>REASONS</th>
+          <th>ROUTE</th>
+        </tr>
+      </thead>
+      <tbody id="log-body">
+        <tr>
+          <td colspan="9">
+            <div class="no-data">
+              <div class="icon">🛡</div>
+              Waiting for attacker activity...
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  let localLogs = [];
+  let hidden = false;
+
+  function scoreBadgeClass(score) {
+    if (score >= 8) return 'score-high';
+    if (score >= 5) return 'score-mid';
+    return 'score-low';
+  }
+
+  function formatTimestamp(ts) {
+    try {
+      const d = new Date(ts);
+      return d.toLocaleTimeString() + '<br/><span style="font-size:10px;color:#555555">'
+        + d.toLocaleDateString() + '</span>';
+    } catch { return ts; }
+  }
+
+  function maskValue(val) {
+    if (!val) return '<span style="color:#555555">—</span>';
+    if (val.length <= 4) return '•'.repeat(val.length);
+    return val.substring(0, 3) + '•'.repeat(Math.min(val.length - 3, 6));
+  }
+
+  function renderTable(logs) {
+    const tbody = document.getElementById('log-body');
+    if (!logs || logs.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9"><div class="no-data"><div class="icon">🛡</div>No attacker activity recorded yet.</div></td></tr>`;
+      return;
+    }
+
+    if (hidden) return;
+
+    const rows = [...logs].reverse().map((entry, idx) => {
+      const score = entry.score || 0;
+      const reasons = (entry.reasons || []).join(' | ') || '—';
+      return `
+        <tr>
+          <td style="color:#555555">${logs.length - idx}</td>
+          <td class="timestamp-cell">${formatTimestamp(entry.timestamp)}</td>
+          <td>${entry.ip || '—'}</td>
+          <td style="color:#003580">${escHtml(entry.username || '—')}</td>
+          <td class="pw-cell">${escHtml(entry.password || '—')}</td>
+          <td style="color:#555555; font-size:11px">${maskValue(entry.api_key)}</td>
+          <td><span class="score-badge ${scoreBadgeClass(score)}">${score}</span></td>
+          <td class="reasons-cell">${escHtml(reasons)}</td>
+          <td style="color:#111111">🍯 HONEYPOT</td>
+        </tr>`;
+    }).join('');
+
+    tbody.innerHTML = rows;
+  }
+
+  function updateStats(logs) {
+    document.getElementById('total').textContent = logs.length;
+
+    const ips = new Set(logs.map(l => l.ip));
+    document.getElementById('unique-ips').textContent = ips.size;
+
+    const sqlCount = logs.filter(l =>
+      (l.reasons || []).some(r => r.toLowerCase().includes('sql'))
+    ).length;
+    document.getElementById('sql-count').textContent = sqlCount;
+
+    const maxScore = logs.reduce((m, l) => Math.max(m, l.score || 0), 0);
+    document.getElementById('max-score').textContent = maxScore;
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  async function fetchLogs() {
+    try {
+      const res = await fetch('http://localhost:5000/logs');
+      const logs = await res.json();
+      localLogs = logs;
+      renderTable(logs);
+      updateStats(logs);
+      document.getElementById('refresh-indicator').textContent =
+        'Last refresh: ' + new Date().toLocaleTimeString();
+    } catch (err) {
+      document.getElementById('refresh-indicator').textContent =
+        'Error: Cannot reach gateway on port 5000';
+    }
+  }
+
+  function clearLogs() {
+    hidden = !hidden;
+    const btn = document.querySelector('.clear-btn');
+    if (hidden) {
+      document.getElementById('log-body').innerHTML = `
+        <tr><td colspan="9">
+          <div class="no-data"><div class="icon">🙈</div>Display hidden. Click SHOW to restore.</div>
+        </td></tr>`;
+      btn.textContent = 'SHOW LOGS';
+      btn.style.borderColor = '#111111';
+      btn.style.color = '#111111';
+    } else {
+      btn.textContent = 'CLEAR DISPLAY';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+      renderTable(localLogs);
+    }
+  }
+
+  // Initial load + auto-refresh every 5 seconds
+  fetchLogs();
+  setInterval(fetchLogs, 5000);
+</script>
+</body>
+</html>

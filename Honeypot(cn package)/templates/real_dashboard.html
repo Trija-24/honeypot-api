@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SecureGateway — Secure Dashboard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #111111;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .brand-icon {
+    width: 40px; height: 40px;
+    border: 1px solid #111111;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .brand-icon svg { width: 20px; height: 20px; fill: #111111; }
+
+  .brand h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #145a32;
+  }
+
+  .status-pill {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+  }
+
+  .main { max-width: 1000px; margin: 0 auto; }
+
+  .welcome-banner {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-left: 3px solid #145a32;
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+
+  .welcome-banner h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #145a32;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .welcome-banner p {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #111111;
+    letter-spacing: 1px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .stat-label {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #145a32;
+  }
+
+  .data-panel {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .data-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #111111;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #111111;
+    border-radius: 50%;
+  }
+
+  .record {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #dddddd;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+  }
+
+  .record:last-child { border-bottom: none; }
+
+  .record-id {
+    color: #111111;
+    font-size: 11px;
+    width: 24px;
+    text-align: right;
+  }
+
+  .record-data { color: #111111; flex: 1; }
+
+  .record-badge {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 1px;
+  }
+
+  .logout-btn {
+    margin-top: 24px;
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 3px;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.44-2.35 6.67-5 7.93-2.65-1.26-5-4.49-5-7.93V7.18L12 5z"/></svg>
+    </div>
+    <h1>SECURE DASHBOARD</h1>
+  </div>
+  <div class="status-pill">● AUTHENTICATED</div>
+</div>
+
+<div class="main">
+  <div class="welcome-banner">
+    <h2>✓ Access Granted</h2>
+    <p>// Routed to REAL API (port 5001) — Suspicion score within safe threshold. Displaying live database records.</p>
+  </div>
+
+  <div class="grid">
+    <div class="stat-card">
+      <div class="stat-label">SUSPICION SCORE</div>
+      <div class="stat-value" style="color: #145a32;">LOW</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">ROUTE TAKEN</div>
+      <div class="stat-value" style="font-size:18px; padding-top:8px;">REAL API</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">RECORDS LOADED</div>
+      <div class="stat-value">3</div>
+    </div>
+  </div>
+
+  <div class="data-panel">
+    <div class="data-header">
+      // SECURE DATABASE — LIVE RECORDS
+      <div class="live-dot"></div>
+    </div>
+    <div class="record">
+      <span class="record-id">01</span>
+      <span class="record-data">record1 — User profile data · Last modified: 2024-01-15</span>
+      <span class="record-badge">REAL</span>
+    </div>
+    <div class="record">
+      <span class="record-id">02</span>
+      <span class="record-data">record2 — Transaction history · Last modified: 2024-01-16</span>
+      <span class="record-badge">REAL</span>
+    </div>
+    <div class="record">
+      <span class="record-id">03</span>
+      <span class="record-data">record3 — System configuration · Last modified: 2024-01-17</span>
+      <span class="record-badge">REAL</span>
+    </div>
+  </div>
+
+  <button class="logout-btn" onclick="window.location.href='/'">⬅ LOGOUT</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SecureGateway — Login</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    width: 420px;
+  }
+
+  .logo {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+    border: 2px solid #111111;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .logo-icon svg { width: 28px; height: 28px; fill: #111111; }
+
+  .logo h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #111111;
+  }
+
+  .logo p {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .panel {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #111111;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .field input {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 3px;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 11px 14px;
+    outline: none;
+  }
+
+  .field input::placeholder { color: #555555; }
+
+  .api-key-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .api-key-row input { flex: 1; }
+
+  .toggle-btn {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 3px;
+    color: #111111;
+    padding: 11px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 3px;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  .submit-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  .status-bar {
+    margin-top: 20px;
+    padding: 12px 14px;
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    display: none;
+    border: 1px solid #111111;
+    color: #111111;
+    background: #f5f5f5;
+  }
+
+  .footer-info {
+    text-align: center;
+    margin-top: 24px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 1px;
+  }
+
+  .footer-info a {
+    color: #111111;
+    text-decoration: underline;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #aaaaaa;
+    border-top-color: #111111;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.44-2.35 6.67-5 7.93-2.65-1.26-5-4.49-5-7.93V7.18L12 5z"/>
+      </svg>
+    </div>
+    <h1>SecureGateway</h1>
+    <p>ADAPTIVE HONEYPOT ROUTING SYSTEM</p>
+  </div>
+
+  <div class="panel">
+    <div class="section-label">// Authentication Required</div>
+
+    <div class="field">
+      <label>USERNAME</label>
+      <input id="username" type="text" placeholder="Enter username" autocomplete="off"/>
+    </div>
+
+    <div class="field">
+      <label>PASSWORD</label>
+      <input id="password" type="password" placeholder="Enter password"/>
+    </div>
+
+    <div class="field">
+      <label>API KEY</label>
+      <div class="api-key-row">
+        <input id="apikey" type="password" placeholder="X-API-Key header value"/>
+        <button class="toggle-btn" onclick="toggleApiKey()" title="Toggle visibility">👁</button>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="loginBtn" onclick="doLogin()">
+      <span>Authenticate</span>
+    </button>
+
+    <div class="status-bar" id="statusBar"></div>
+  </div>
+
+  <div class="footer-info">
+    GATEWAY:5000 · REAL-API:5001 · HONEYPOT:5002 &nbsp;|&nbsp;
+    <a href="/monitor" target="_blank">Monitor Panel ↗</a>
+  </div>
+</div>
+
+<script>
+  function toggleApiKey() {
+    const f = document.getElementById('apikey');
+    f.type = f.type === 'password' ? 'text' : 'password';
+  }
+
+  function setStatus(msg, type) {
+    const bar = document.getElementById('statusBar');
+    bar.className = `status-bar ${type}`;
+    bar.innerHTML = msg;
+    bar.style.display = 'block';
+  }
+
+  async function doLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const apikey   = document.getElementById('apikey').value.trim();
+    const btn      = document.getElementById('loginBtn');
+
+    if (!username || !password) {
+      setStatus('⚠ Username and password are required.', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.querySelector('span').innerHTML = '<span class="spinner"></span>Authenticating...';
+    setStatus('Connecting to gateway...', 'info');
+
+    try {
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, api_key: apikey }),
+      });
+
+      const data = await res.json();
+
+      if (data.routed_to === 'honeypot') {
+        setStatus(`🚨 [SCORE: ${data.score}] Redirecting... ${data.reasons.join(' | ')}`, 'error');
+        setTimeout(() => { window.location.href = '/fake-dashboard'; }, 1200);
+
+      } else if (data.routed_to === 'real') {
+        setStatus('✅ Authentication successful. Loading secure dashboard...', 'success');
+        setTimeout(() => { window.location.href = '/real-dashboard'; }, 1000);
+
+      } else {
+        setStatus('❌ Invalid credentials. Access denied.', 'error');
+        btn.disabled = false;
+        btn.querySelector('span').textContent = 'Authenticate';
+      }
+
+    } catch (err) {
+      setStatus(`⚠ Connection error: ${err.message}. Is gateway running on port 5000?`, 'error');
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Authenticate';
+    }
+  }
+
+  // Allow Enter key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — Welcome Back</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #111111;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .brand-icon {
+    width: 40px; height: 40px;
+    border: 1px solid #111111;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .brand-icon svg { width: 20px; height: 20px; fill: #111111; }
+
+  .brand h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #cc0000;
+  }
+
+  .status-pill {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+  }
+
+  .main { max-width: 1000px; margin: 0 auto; }
+
+  .welcome-banner {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-left: 3px solid #cc0000;
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+
+  .welcome-banner h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #cc0000;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .welcome-banner p {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #111111;
+    letter-spacing: 1px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .stat-label {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #cc0000;
+  }
+
+  .data-panel {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .data-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #111111;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #111111;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #111111;
+    border-radius: 50%;
+  }
+
+  .record {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #dddddd;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+  }
+
+  .record:last-child { border-bottom: none; }
+
+  .record-id { color: #111111; font-size: 11px; width: 24px; text-align: right; }
+  .record-data { color: #111111; flex: 1; }
+
+  .record-badge {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-size: 10px;
+    color: #111111;
+    letter-spacing: 1px;
+  }
+
+  .token-box {
+    margin-top: 20px;
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #111111;
+  }
+
+  .token-box span {
+    color: #cc0000;
+    font-weight: 700;
+    word-break: break-all;
+  }
+
+  .secret-note {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    color: #aaaaaa;
+    letter-spacing: 1px;
+    pointer-events: none;
+    z-index: 1000;
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.44-2.35 6.67-5 7.93-2.65-1.26-5-4.49-5-7.93V7.18L12 5z"/></svg>
+    </div>
+    <h1>SECURE DASHBOARD</h1>
+  </div>
+  <div class="status-pill">● AUTHENTICATED</div>
+</div>
+
+<div class="main">
+  <div class="welcome-banner">
+    <h2>✓ Login Successful</h2>
+    <p>// Welcome back. Your session has been established. Loading your database records...</p>
+  </div>
+
+  <div class="grid">
+    <div class="stat-card">
+      <div class="stat-label">SESSION STATUS</div>
+      <div class="stat-value" style="font-size:18px; padding-top:8px;">ACTIVE</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">ACCESS LEVEL</div>
+      <div class="stat-value" style="font-size:18px; padding-top:8px;">ADMIN</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">RECORDS FOUND</div>
+      <div class="stat-value">247</div>
+    </div>
+  </div>
+
+  <div class="data-panel">
+    <div class="data-header">
+      // DATABASE RECORDS — ALL ACCESS
+      <div class="live-dot"></div>
+    </div>
+    <div class="record">
+      <span class="record-id">01</span>
+      <span class="record-data">user_accounts — 128 entries · credentials, hashes, salts</span>
+      <span class="record-badge">FETCHED</span>
+    </div>
+    <div class="record">
+      <span class="record-id">02</span>
+      <span class="record-data">financial_records — 89 entries · account balances, transfers</span>
+      <span class="record-badge">FETCHED</span>
+    </div>
+    <div class="record">
+      <span class="record-id">03</span>
+      <span class="record-data">system_config — 30 entries · internal keys, endpoints, secrets</span>
+      <span class="record-badge">FETCHED</span>
+    </div>
+  </div>
+
+  <div class="token-box">
+    SESSION TOKEN &nbsp;→ &nbsp;<span>fake-token-xyz</span><br/>
+    <br/>
+    <span style="color:#111111; font-weight:normal;">// All your activity is being recorded and analysed.</span>
+  </div>
+</div>
+
+<!-- Hidden watermark — this is the honeypot -->
+<div class="secret-note">[ HONEYPOT — PORT 5002 — ALL ACTIVITY LOGGED ]</div>
+</body>
+</html>

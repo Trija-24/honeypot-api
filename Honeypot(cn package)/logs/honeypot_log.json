@@ -1,0 +1,132 @@
+[
+  {
+    "timestamp": "2026-04-17T17:25:34.094105Z",
+    "ip": "127.0.0.1",
+    "username": "' OR 1=1",
+    "password": "124",
+    "api_key": "",
+    "score": 8,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "SQL injection pattern in username (+5)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-17T17:26:57.380632Z",
+    "ip": "127.0.0.1",
+    "username": "user",
+    "password": "1221213",
+    "api_key": "2w2e",
+    "score": 5,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "Rate limit exceeded (+2)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-17T21:56:42.761916Z",
+    "ip": "127.0.0.1",
+    "username": "' OR 1=1",
+    "password": "1221",
+    "api_key": "323",
+    "score": 8,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "SQL injection pattern in username (+5)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-17T21:57:20.935213Z",
+    "ip": "127.0.0.1",
+    "username": "ewe",
+    "password": "frefwe",
+    "api_key": "ewfew",
+    "score": 5,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "Rate limit exceeded (+2)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-17T22:01:35.768635Z",
+    "ip": "127.0.0.1",
+    "username": "' OR 1=1",
+    "password": "ewdw",
+    "api_key": "edefef",
+    "score": 8,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "SQL injection pattern in username (+5)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-17T22:02:11.372361Z",
+    "ip": "127.0.0.1",
+    "username": "rfvf",
+    "password": "erfer",
+    "api_key": "fref",
+    "score": 5,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "Rate limit exceeded (+2)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-18T04:08:46.273639Z",
+    "ip": "127.0.0.1",
+    "username": "' OR 1=1",
+    "password": "ftrr",
+    "api_key": "ddrtdtr",
+    "score": 8,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "SQL injection pattern in username (+5)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-18T04:47:22.337261Z",
+    "ip": "127.0.0.1",
+    "username": "' OR 1=1",
+    "password": "hgfr",
+    "api_key": "ygrfy",
+    "score": 8,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "SQL injection pattern in username (+5)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-18T04:48:22.061796Z",
+    "ip": "127.0.0.1",
+    "username": "admin",
+    "password": "rfefre",
+    "api_key": "ffre",
+    "score": 5,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "Known bad username 'admin' (+2)"
+    ],
+    "routed_to": "honeypot"
+  },
+  {
+    "timestamp": "2026-04-18T04:49:33.531479Z",
+    "ip": "127.0.0.1",
+    "username": "frrefre",
+    "password": "rer",
+    "api_key": "frfr",
+    "score": 5,
+    "reasons": [
+      "Invalid/missing API key (+3)",
+      "Rate limit exceeded (+2)"
+    ],
+    "routed_to": "honeypot"
+  }
+]
