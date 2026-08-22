@@ -2,9 +2,11 @@
 
 ## Overview
 
-This project is a Flask-based cybersecurity honeypot system designed to detect, analyze, and divert suspicious users away from legitimate services. The system acts as an intelligent gateway between users and backend services, using risk scoring techniques to identify potential attackers.
+This project is a Flask-based cybersecurity honeypot system designed to detect, analyze, and divert suspicious users away from legitimate services.
 
-Legitimate users are routed to the real API, while suspicious users are redirected to a honeypot environment that simulates a successful login, allowing attack behavior to be monitored and logged without exposing actual resources.
+The system acts as an intelligent gateway between users and backend services, using risk-scoring techniques to identify potentially malicious activity.
+
+Legitimate users are routed to the real API, while suspicious users are redirected to a honeypot environment that simulates a successful login. This allows attack behavior to be monitored and logged without exposing actual resources.
 
 ---
 
@@ -17,71 +19,90 @@ The gateway evaluates incoming login requests and assigns a risk score based on:
 * Invalid or missing API keys
 * SQL injection attempts
 * Suspicious usernames
-* Excessive request frequency (rate limiting)
+* Excessive request frequency
+* Rate-limit violations
 
 ### Intelligent Routing
 
-* Safe users → Real API
-* Suspicious users → Honeypot API
+* **Safe users** → Real API
+* **Suspicious users** → Honeypot API
 
 ### SQL Injection Detection
 
-Detects common attack patterns such as:
+Detects common SQL injection patterns, including:
 
 * `' OR 1=1`
 * `UNION SELECT`
 * `DROP TABLE`
-* SQL comments (`--`)
-* Other malicious SQL expressions
+* SQL comments such as `--`
+* Other suspicious SQL expressions
 
 ### Rate Limiting
 
-Tracks requests per IP address and identifies abnormal login attempts.
+Tracks requests by IP address and identifies abnormal or excessive login attempts.
 
 ### Honeypot Environment
 
-Creates a fake authentication service that:
+The honeypot authentication service:
 
 * Mimics successful logins
 * Returns fake access tokens
 * Delays responses to appear realistic
-* Keeps attackers engaged
+* Keeps suspicious users engaged
+* Prevents access to legitimate resources
 
 ### Attack Logging
 
-Stores attacker information including:
+The system records information about detected attack attempts, including:
 
 * Timestamp
 * IP address
 * Username
-* Password
-* API Key
-* Risk Score
-* Detection Reasons
-* Routing Decision
+* API key
+* Risk score
+* Detection reasons
+* Routing decision
+
+> **Security Note:** Avoid storing real passwords in plaintext. If passwords are logged for a controlled academic demonstration, ensure the project is never deployed with real credentials or exposed to untrusted users.
 
 ### Monitoring Dashboard
 
-Provides visibility into captured attack attempts and honeypot activity.
+Provides visibility into captured attack attempts and honeypot activity through a web-based monitoring dashboard.
 
+---
 
 ## System Architecture
 
-User Request
-↓
-Gateway Server
-↓
-Risk Analysis Engine
-↓
-┌───────────────┬───────────────┐
-│               │
-▼               ▼
-Real API      Honeypot API
-(Legitimate)  (Suspicious)
-↓               ↓
-Real Data      Fake Data
-↓               ↓
-User        Attacker
+```text
+                    User Request
+                         │
+                         ▼
+                  ┌─────────────┐
+                  │   Gateway   │
+                  │   Server    │
+                  └──────┬──────┘
+                         │
+                         ▼
+                ┌─────────────────┐
+                │  Risk Analysis  │
+                │     Engine      │
+                └────────┬────────┘
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+        Low Risk               High Risk
+              │                     │
+              ▼                     ▼
+       ┌─────────────┐       ┌─────────────┐
+       │   Real API  │       │ Honeypot API│
+       └──────┬──────┘       └──────┬──────┘
+              │                     │
+              ▼                     ▼
+         Real Data              Fake Data
+              │                     │
+              ▼                     ▼
+        Legitimate User          Attacker
+```
 
 ---
 
@@ -104,18 +125,18 @@ User        Attacker
 ### Data Handling
 
 * JSON Logging
-* Python Collections (defaultdict)
+* Python `collections.defaultdict`
 
 ### Networking
 
 * REST APIs
 * HTTP Requests
-* Requests Library
+* Python Requests Library
 
 ### Frontend
 
 * HTML
-* Flask Templates (Jinja2)
+* Jinja2 / Flask Templates
 
 ### Monitoring
 
@@ -125,7 +146,8 @@ User        Attacker
 ---
 
 ## Project Structure
-'''text
+
+```text
 Honeypot/
 │
 ├── gateway.py
@@ -142,52 +164,66 @@ Honeypot/
 │   └── honeypot_log.json
 │
 └── requirements.txt
-'''
+```
+
+---
 
 ## Default Credentials
 
+For local development/testing only:
+
+```text
 Username: user
-
 Password: pass123
-
 API Key: SECURE-KEY-999
+```
+
+> **Warning:** Do not use these credentials in production. Store sensitive credentials in environment variables or a secure secrets manager.
 
 ---
 
 ## Security Workflow
 
-1. User submits login credentials.
-2. Gateway calculates a risk score.
-3. Detection checks include:
+1. The user submits login credentials.
+2. The gateway receives and analyzes the request.
+3. The risk analysis engine calculates a risk score.
+4. Detection checks are performed, including:
 
    * API key validation
    * SQL injection detection
-   * Rate limit verification
+   * Rate-limit verification
    * Username reputation checks
-4. If score < threshold:
+5. If the risk score is below the configured threshold:
 
-   * User is routed to Real API.
-5. If score ≥ threshold:
+   * The request is routed to the **Real API**.
+6. If the risk score meets or exceeds the threshold:
 
-   * User is routed to Honeypot API.
-6. Activity is logged for analysis.
+   * The request is routed to the **Honeypot API**.
+7. The activity is logged for monitoring and analysis.
 
 ---
 
 ## Future Enhancements
 
-* Machine Learning based threat detection
-* Real-time alerting system
-* Geo-location based attack tracking
+* Machine-learning-based threat detection
+* Real-time security alerts
+* Geo-location-based attack tracking
 * Threat intelligence integration
-* Admin analytics dashboard
-* Database support (MySQL/PostgreSQL)
+* Advanced admin analytics dashboard
+* MySQL/PostgreSQL database support
 * Docker deployment
 * SIEM integration
+* Automated threat reporting
 
 ---
 
 ## Author
 
-Developed as a cybersecurity project to demonstrate intrusion detection, deception technologies, and secure API gateway implementation using Python and Flask.
+Developed as a cybersecurity project demonstrating:
 
+* Intrusion detection
+* Honeypot and deception technologies
+* Risk-based request analysis
+* Malicious request detection
+* Secure API gateway concepts
+* Python and Flask-based security architecture
