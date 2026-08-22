@@ -125,7 +125,7 @@ User        Attacker
 ---
 
 ## Project Structure
-
+'''text
 Honeypot/
 │
 ├── gateway.py
