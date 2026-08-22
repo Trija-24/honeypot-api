@@ -142,6 +142,7 @@ Honeypot/
 │   └── honeypot_log.json
 │
 └── requirements.txt
+'''
 
 ## Default Credentials
 
